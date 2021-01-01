@@ -4,6 +4,7 @@ import com.google.common.base.Splitter;
 import hudson.model.ParametersDefinitionProperty;
 import org.apache.commons.lang.StringUtils;
 
+import javax.annotation.CheckForNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +35,15 @@ public class ParameterParser {
 		return Splitter.on(PAIR_SEPARATOR).trimResults().withKeyValueSeparator(Splitter.on(NAME_VALUE_SEPARATOR).limit(2)).split(clean);
 	}
 
+	@CheckForNull
 	public String checkSanity(String cronTabSpec, ParametersDefinitionProperty parametersDefinitionProperty) {
 		String[] cronTabLines = cronTabSpec.split("\\r?\\n");
 		for (String cronTabLine : cronTabLines) {
-			String[] split = cronTabLine.split(PARAMETER_SEPARATOR);
-			if (split.length > 2) {
-				return Messages.ParameterizedTimerTrigger_MoreThanOnePercent();
-			}
-			if (split.length == 2) {
+			int idx = cronTabLine.indexOf(PARAMETER_SEPARATOR);
+			if (idx != -1 && idx + 1 < cronTabLine.length()) {
+				String split = cronTabLine.substring(idx + 1);
 				try {
-					Map<String, String> parsedParameters = parse(split[1]);
+					Map<String, String> parsedParameters = parse(split);
 					List<String> parameterDefinitionNames = parametersDefinitionProperty != null
 							? parametersDefinitionProperty.getParameterDefinitionNames() : Collections.emptyList();
 					List<String> parsedKeySet = parsedParameters.keySet().stream().filter(s -> !parameterDefinitionNames.contains(s)).collect(Collectors.toList());

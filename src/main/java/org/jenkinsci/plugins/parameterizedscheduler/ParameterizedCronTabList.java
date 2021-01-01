@@ -2,7 +2,6 @@ package org.jenkinsci.plugins.parameterizedscheduler;
 
 import hudson.scheduler.CronTabList;
 import hudson.scheduler.Hash;
-import hudson.scheduler.Messages;
 
 import java.util.ArrayList;
 import java.util.Calendar;

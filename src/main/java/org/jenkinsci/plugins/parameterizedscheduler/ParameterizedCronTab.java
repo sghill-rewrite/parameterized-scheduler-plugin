@@ -2,10 +2,10 @@ package org.jenkinsci.plugins.parameterizedscheduler;
 
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import antlr.ANTLRException;
-import com.google.common.collect.Maps;
 import hudson.scheduler.CronTab;
 import hudson.scheduler.CronTabList;
 import hudson.scheduler.Hash;
@@ -35,7 +35,7 @@ public class ParameterizedCronTab {
 	 *      of not spreading it out at all.
 	 */
 	public static ParameterizedCronTab create(String line, int lineNumber, Hash hash, String timezone) throws ANTLRException {
-		Map<String, String> parameters = Maps.newHashMap();
+		Map<String, String> parameters = new HashMap<>();
 		int firstPercentIdx = line.indexOf("%");
 		if(firstPercentIdx != -1) {
 			String cronLinePart = line.substring(0, firstPercentIdx).trim();

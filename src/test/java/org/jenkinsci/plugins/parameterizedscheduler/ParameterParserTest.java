@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -120,14 +121,6 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_MoreThanOnePercent() throws Exception {
-		ParameterParser testObject = new ParameterParser();
-
-		assertEquals(Messages.ParameterizedTimerTrigger_MoreThanOnePercent(),
-				testObject.checkSanity("* * * * *%name=value;%fred=barney", mockParametersDefinitionProperty));
-	}
-
-	@Test
 	public void checkSanity_NoParametersIsNoBigDeal() throws Exception {
 		ParameterParser testObject = new ParameterParser();
 
@@ -160,11 +153,20 @@ public class ParameterParserTest {
 	@Test
 	public void test_paramValue_with_percent() {
 		ParameterParser testObject = new ParameterParser();
-
-		HashMap<String, String> expected = new HashMap<String, String>();
+		HashMap<String, String> expected = new HashMap<>();
 		expected.put("name", "value");
 		expected.put("percent", "10%");
 		assertEquals(expected, testObject.parse("name=value;percent=10%"));
+	}
+
+	@Test
+	public void checkSanity_paramValueWithPercent() {
+		ParameterParser testObject = new ParameterParser();
+		List<String> list = new ArrayList<>();
+		list.add("percent");
+		list.add("name");
+		Mockito.when(mockParametersDefinitionProperty.getParameterDefinitionNames()).thenReturn(list);
+		assertNull(testObject.checkSanity("* * * * *%percent=10%;name=value", mockParametersDefinitionProperty));
 	}
 
 }
