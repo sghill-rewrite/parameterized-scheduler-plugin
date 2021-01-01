@@ -2,10 +2,10 @@ package org.jenkinsci.plugins.parameterizedscheduler;
 
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import antlr.ANTLRException;
+import com.google.common.collect.Maps;
 import hudson.scheduler.CronTab;
 import hudson.scheduler.CronTabList;
 import hudson.scheduler.Hash;
@@ -34,14 +34,19 @@ public class ParameterizedCronTab {
 	 *      Used to spread out token like "@daily". Null to preserve the legacy behaviour
 	 *      of not spreading it out at all.
 	 */
-	public static ParameterizedCronTab create(String line, int lineNumber, Hash hash) throws ANTLRException {
-		String[] lineParts = line.split("%");
-		CronTab cronTab = new CronTab(lineParts[0].trim(), lineNumber, hash);
-		Map<String, String> parameters = new HashMap<>();
-		if (lineParts.length == 2) {
-			parameters = new ParameterParser().parse(lineParts[1]);
+	public static ParameterizedCronTab create(String line, int lineNumber, Hash hash, String timezone) throws ANTLRException {
+		Map<String, String> parameters = Maps.newHashMap();
+		int firstPercentIdx = line.indexOf("%");
+		if(firstPercentIdx != -1) {
+			String cronLinePart = line.substring(0, firstPercentIdx).trim();
+			String paramsLinePart = line.substring(firstPercentIdx + 1).trim();
+			CronTab cronTab = new CronTab(cronLinePart, lineNumber, hash, timezone);
+			parameters = new ParameterParser().parse(paramsLinePart);
+			return new ParameterizedCronTab(cronTab, parameters);
+		} else {
+			CronTab cronTab = new CronTab(line, lineNumber, hash, timezone);
+			return new ParameterizedCronTab(cronTab, parameters);
 		}
-		return new ParameterizedCronTab(cronTab, parameters);
 	}
 
 	public Map<String, String> getParameterValues() {
