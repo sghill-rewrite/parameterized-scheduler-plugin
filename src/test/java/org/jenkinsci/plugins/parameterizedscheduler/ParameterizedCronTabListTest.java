@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
+import antlr.ANTLRException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -107,11 +107,15 @@ public class ParameterizedCronTabListTest {
 		ParameterizedCronTabList testObject = ParameterizedCronTabList.create("TZ=Australia/Sydney \n * * * * *%foo=bar");
 		assertTrue(testObject.checkSanity(), testObject.checkSanity().startsWith("Do you really mean \"every minute\""));
 		ParameterizedCronTab actualCronTab = testObject.check(new GregorianCalendar());
-		assertTrue(actualCronTab != null);
+		assertNotNull(actualCronTab);
 
-		Map<String, String> expected = Maps.newHashMap();
-		expected.put("foo", "bar");
+		Map<String, String> expected = Collections.singletonMap("foo", "bar");
 		assertEquals(expected, actualCronTab.getParameterValues());
+	}
+
+	@Test(expected = ANTLRException.class)
+	public void create_with_invalidTimezone() throws ANTLRException {
+		ParameterizedCronTabList.create("TZ=Dune/Arrakis \n * * * * *%foo=bar");
 	}
 
 }
