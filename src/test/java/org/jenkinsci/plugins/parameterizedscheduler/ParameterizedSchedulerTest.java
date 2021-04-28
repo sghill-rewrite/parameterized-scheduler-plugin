@@ -21,7 +21,11 @@ import org.kohsuke.stapler.StaplerRequest;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
@@ -37,14 +41,18 @@ public class ParameterizedSchedulerTest {
         FreeStyleProject p = r.createFreeStyleProject();
         p.addProperty(new ParametersDefinitionProperty(new StringParameterDefinition("foo", "lol")));
         assertThat(p.getLastCompletedBuild(), is(nullValue()));
-        Trigger<Job> t = new ParameterizedTimerTrigger("* * * * *%foo=bar");
+        Trigger<Job> t = new ParameterizedTimerTrigger("* * * * *%foo=bar\n*/1 * * * *%foo=boo");
         t.start(p, true);
         p.addTrigger(t);
         new Cron().doRun();
         assertThat(p.isInQueue(), is(true));
         r.waitUntilNoActivity();
         assertThat(p.getLastCompletedBuild(), is(notNullValue()));
-        assertThat((String) p.getLastCompletedBuild().getAction(ParametersAction.class).getParameter("foo").getValue(), is("bar"));
+        List<String> values = new ArrayList<>();
+        for (int i = 1; i < 3; ++i) {
+            values.add((String) p.getBuildByNumber(i).getAction(ParametersAction.class).getParameter("foo").getValue());
+        }
+        assertThat(values, containsInAnyOrder("bar", "boo"));
     }
 
     @Test
@@ -53,13 +61,17 @@ public class ParameterizedSchedulerTest {
         p.setDefinition(new CpsFlowDefinition("", true));
         WorkflowRun wfr = p.scheduleBuild2(0).get();
         p.addProperty(new ParametersDefinitionProperty(new StringParameterDefinition("foo", "lol")));
-        Trigger<Job> t = new ParameterizedTimerTrigger("* * * * *%foo=bar");
+        Trigger<Job> t = new ParameterizedTimerTrigger("* * * * *%foo=bar\n*/1 * * * *%foo=boo");
         t.start(p, true);
         p.addTrigger(t);
         new Cron().doRun();
         r.waitUntilNoActivity();
         assertThat(p.getLastCompletedBuild(), is(not(wfr)));
-        assertThat((String) p.getLastCompletedBuild().getAction(ParametersAction.class).getParameter("foo").getValue(), is("bar"));
+        List<String> values = new ArrayList<>();
+        for (int i = 2; i < 4; ++i) {
+            values.add((String) p.getBuildByNumber(i).getAction(ParametersAction.class).getParameter("foo").getValue());
+        }
+        assertThat(values, containsInAnyOrder("bar", "boo"));
     }
 
     @Test
@@ -70,14 +82,18 @@ public class ParameterizedSchedulerTest {
                 "    string(name: 'foo', defaultValue: 'lol')\n" +
                 "  ]),\n" +
                 "  pipelineTriggers([\n" +
-                "    parameterizedCron('* * * * *%foo=bar')\n" +
+                "    parameterizedCron('* * * * *%foo=bar\\n*/1 * * * *%foo=boo')\n" +
                 "  ])\n" +
                 "])", true));
         WorkflowRun wfr = r.buildAndAssertSuccess(p);
         new Cron().doRun();
         r.waitUntilNoActivity();
         assertThat(p.getLastCompletedBuild(), is(not(wfr)));
-        assertThat((String) p.getLastCompletedBuild().getAction(ParametersAction.class).getParameter("foo").getValue(), is("bar"));
+        List<String> values = new ArrayList<>();
+        for (int i = 2; i < 4; ++i) {
+            values.add((String) p.getBuildByNumber(i).getAction(ParametersAction.class).getParameter("foo").getValue());
+        }
+        assertThat(values, containsInAnyOrder("bar", "boo"));
     }
 
     @Test
@@ -89,7 +105,7 @@ public class ParameterizedSchedulerTest {
                 "      string(name: 'foo', defaultValue: 'lol')\n" +
                 "    }\n" +
                 "    triggers {\n" +
-                "        parameterizedCron('* * * * *%foo=bar')\n" +
+                "        parameterizedCron('* * * * *%foo=bar\\n*/1 * * * *%foo=boo')\n" +
                 "    }\n" +
                 "    stages {\n" +
                 "        stage('Test') {\n" +
@@ -103,7 +119,11 @@ public class ParameterizedSchedulerTest {
         new Cron().doRun();
         r.waitUntilNoActivity();
         assertThat(p.getLastCompletedBuild(), is(not(wfr)));
-        assertThat((String) p.getLastCompletedBuild().getAction(ParametersAction.class).getParameter("foo").getValue(), is("bar"));
+        List<String> values = new ArrayList<>();
+        for (int i = 2; i < 4; ++i) {
+            values.add((String) p.getBuildByNumber(i).getAction(ParametersAction.class).getParameter("foo").getValue());
+        }
+        assertThat(values, containsInAnyOrder("bar", "boo"));
     }
 
     @Test
