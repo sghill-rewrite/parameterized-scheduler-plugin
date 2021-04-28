@@ -9,11 +9,11 @@
 	</parent>
 
 	<artifactId>parameterized-scheduler</artifactId>
-	<version>1.0</version>
+	<version>${revision}${changelist}</version>
 	<packaging>hpi</packaging>
 
 	<properties>
-		<revision>1.0</revision>
+		<revision>1.1</revision>
 		<changelist>-SNAPSHOT</changelist>
 		<gitHubRepo>jenkinsci/parameterized-scheduler-plugin</gitHubRepo>
 		<java.level>8</java.level>
@@ -44,7 +44,7 @@
 		<connection>scm:git:git://github.com/${gitHubRepo}.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
 		<url>https://github.com/${gitHubRepo}</url>
-		<tag>parameterized-scheduler-1.0</tag>
+		<tag>${scmTag}</tag>
 	</scm>
 
 	<repositories>
