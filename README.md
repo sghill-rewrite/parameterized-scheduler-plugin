@@ -49,7 +49,7 @@ Then you might want a schedule like the following:
 
 ## Declarative Pipeline Configuration Example
 
-The parameterized cron trigger can be specified using the key `parameterizedSpecification` under the `parameterizedCron` under the [triggers directive](https://jenkins.io/doc/book/pipeline/syntax/#declarative-directives). The built in `cron` trigger is still available and is independent of `parameterizedCron`.
+The parameterized cron trigger can be specified using the key `parameterizedCron` under the [triggers directive](https://jenkins.io/doc/book/pipeline/syntax/#declarative-directives). The built in `cron` trigger is still available and is independent of `parameterizedCron`.
 
 Example:
 
