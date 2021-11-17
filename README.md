@@ -83,6 +83,37 @@ pipeline {
 
 ![Example Output in Jenkins](https://raw.githubusercontent.com/jenkinsci/parameterized-scheduler-plugin/master/site/images/scheduledBuilds.PNG)
 
+## Using the `when` / `triggeredBy` directive
+
+One of the options of [when directive](https://www.jenkins.io/doc/book/pipeline/syntax/#when) is a `triggeredBy` clause. When using the built in `cron` trigger, you should use `triggeredBy 'TimerTrigger'`. However, `parameterizedCron` trigger is a different trigger from the built-in one, so the `triggeredBy` should be updated accordingly:
+
+```
+pipeline {
+    agent any
+    parameters {
+      string(name: 'PLANET', defaultValue: 'Earth', description: 'Which planet are we on?')
+      string(name: 'GREETING', defaultValue: 'Hello', description: 'How shall we greet?')
+    }
+    triggers {
+        parameterizedCron('''
+            # leave spaces where you want them around the parameters. They'll be trimmed.
+            # we let the build run with the default name
+            */2 * * * * %GREETING=Hola;PLANET=Pluto
+            */3 * * * * %PLANET=Mars
+        ''')
+    stages {
+        stage('Example') {
+            when {
+                triggeredBy 'ParameterizedTimerTriggerCause'
+            }
+            steps {
+                echo 'This build was triggered by a `parameterizedCron` trigger'
+            }
+        }
+    }
+}
+```
+
 ## Scripted Pipeline Example
 
 ```
