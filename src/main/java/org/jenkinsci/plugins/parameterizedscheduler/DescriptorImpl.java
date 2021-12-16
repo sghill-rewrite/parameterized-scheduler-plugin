@@ -1,6 +1,8 @@
 package org.jenkinsci.plugins.parameterizedscheduler;
 
 import static hudson.Util.fixNull;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.Item;
 import hudson.model.AbstractProject;
@@ -38,6 +40,7 @@ public class DescriptorImpl extends TriggerDescriptor {
 		return result;
 	}
 
+	@NonNull
 	@Override
 	public String getDisplayName() {
 		return Messages.ParameterizedTimerTrigger_DisplayName();
