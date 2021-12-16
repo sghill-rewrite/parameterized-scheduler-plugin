@@ -29,7 +29,7 @@ public class Cron extends PeriodicWork {
 	}
 
 	@Override
-	protected void doRun() throws Exception {
+	protected void doRun() {
 		Jenkins instance = Jenkins.get();
 
 		for (AbstractProject<?, ?> project : instance.allItems(AbstractProject.class)) {

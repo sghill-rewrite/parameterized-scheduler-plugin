@@ -66,7 +66,7 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) {
 		return null;
 	}
 
@@ -183,27 +183,27 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+	public boolean authenticate(HttpServletResponse response) {
 		return false;
 	}
 
 	@Override
-	public void login(String username, String password) throws ServletException {
+	public void login(String username, String password) {
 
 	}
 
 	@Override
-	public void logout() throws ServletException {
+	public void logout() {
 
 	}
 
 	@Override
-	public Collection<Part> getParts() throws IOException, ServletException {
+	public Collection<Part> getParts() {
 		return null;
 	}
 
 	@Override
-	public Part getPart(String name) throws IOException, ServletException {
+	public Part getPart(String name) {
 		return null;
 	}
 
@@ -224,7 +224,7 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public void setCharacterEncoding(String env) throws UnsupportedEncodingException {
+	public void setCharacterEncoding(String env) {
 
 	}
 
@@ -244,7 +244,7 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public ServletInputStream getInputStream() throws IOException {
+	public ServletInputStream getInputStream() {
 		return null;
 	}
 
@@ -291,7 +291,7 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public BufferedReader getReader() throws IOException {
+	public BufferedReader getReader() {
 		return null;
 	}
 
@@ -427,18 +427,18 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public RequestDispatcher getView(Object it, String viewName) throws IOException {
+	public RequestDispatcher getView(Object it, String viewName) {
 		return null;
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public RequestDispatcher getView(Class clazz, String viewName) throws IOException {
+	public RequestDispatcher getView(Class clazz, String viewName) {
 		return null;
 	}
 
 	@Override
-	public RequestDispatcher getView(Klass<?> clazz, String viewName) throws IOException {
+	public RequestDispatcher getView(Klass<?> clazz, String viewName) {
 		return null;
 	}
 
@@ -559,12 +559,12 @@ public class ParameterizedStaplerRequest implements StaplerRequest {
 	}
 
 	@Override
-	public JSONObject getSubmittedForm() throws ServletException {
+	public JSONObject getSubmittedForm() {
 		return null;
 	}
 
 	@Override
-	public FileItem getFileItem(String name) throws ServletException, IOException {
+	public FileItem getFileItem(String name) {
 		return null;
 	}
 
