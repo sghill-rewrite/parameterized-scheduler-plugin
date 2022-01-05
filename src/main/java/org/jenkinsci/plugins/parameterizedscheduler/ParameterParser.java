@@ -1,10 +1,10 @@
 package org.jenkinsci.plugins.parameterizedscheduler;
 
 import com.google.common.base.Splitter;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.model.ParametersDefinitionProperty;
 import org.apache.commons.lang.StringUtils;
 
-import javax.annotation.CheckForNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

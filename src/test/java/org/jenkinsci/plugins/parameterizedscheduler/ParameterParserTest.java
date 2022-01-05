@@ -94,7 +94,7 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_HappyPath() throws Exception {
+	public void checkSanity_HappyPath() {
 		ParameterParser testObject = new ParameterParser();
 
 		Mockito.when(mockParametersDefinitionProperty.getParameterDefinitionNames()).thenReturn(Collections.singletonList("name"));
@@ -102,7 +102,7 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_NotDefined_ProjectParameter() throws Exception {
+	public void checkSanity_NotDefined_ProjectParameter() {
 		ParameterParser testObject = new ParameterParser();
 
 		List<String> list = Collections.singletonList("not name");
@@ -112,7 +112,7 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_TrailingSemiColon_IsTrimmed() throws Exception {
+	public void checkSanity_TrailingSemiColon_IsTrimmed() {
 		ParameterParser testObject = new ParameterParser();
 
 		Mockito.when(mockParametersDefinitionProperty.getParameterDefinitionNames()).thenReturn(
@@ -121,7 +121,7 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_NoParametersIsNoBigDeal() throws Exception {
+	public void checkSanity_NoParametersIsNoBigDeal() {
 		ParameterParser testObject = new ParameterParser();
 
 		assertNull(testObject.checkSanity("* * * * *%", mockParametersDefinitionProperty));
@@ -129,13 +129,13 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_duplicateParamName() throws Exception {
+	public void checkSanity_duplicateParamName() {
 		ParameterParser testObject = new ParameterParser();
 		assertTrue(testObject.checkSanity("* * * * *%name=value;name=value2", mockParametersDefinitionProperty).startsWith("Duplicate key"));
 	}
 
 	@Test
-	public void checkSanity_UnmatchedEquals() throws Exception {
+	public void checkSanity_UnmatchedEquals() {
 		ParameterParser testObject = new ParameterParser();
 		Mockito.when(mockParametersDefinitionProperty.getParameterDefinitionNames()).thenReturn(
 				Arrays.asList("name", "name2"));
@@ -144,7 +144,7 @@ public class ParameterParserTest {
 	}
 
 	@Test
-	public void checkSanity_NullParameters() throws Exception {
+	public void checkSanity_NullParameters() {
 		ParameterParser testObject = new ParameterParser();
 		assertEquals(Messages.ParameterizedTimerTrigger_UndefinedParameter(Collections.singletonList("name"), Collections.emptyList()),
 				testObject.checkSanity("* * * * *%name=value", null));

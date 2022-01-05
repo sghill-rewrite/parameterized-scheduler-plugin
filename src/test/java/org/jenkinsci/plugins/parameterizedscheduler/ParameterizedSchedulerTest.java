@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.parameterizedscheduler;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.ParameterDefinition;
@@ -17,9 +19,6 @@ import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.StaplerRequest;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +143,7 @@ public class ParameterizedSchedulerTest {
 
     private static class NullParameterDefinition extends ParameterDefinition {
 
-        public NullParameterDefinition(@Nonnull String name) {
+        public NullParameterDefinition(@NonNull String name) {
             super(name, null);
         }
 
