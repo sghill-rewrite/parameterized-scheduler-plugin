@@ -17,7 +17,7 @@ After you save your project with some parameters (yes, save, then go back into t
 
 in the *Build Triggers* section as shown here:
 
-![Parameterized Schedular Config](https://raw.githubusercontent.com/jenkinsci/parameterized-scheduler-plugin/master/site/images/configurationexample.png)
+![Parameterized Scheduler Config](https://raw.githubusercontent.com/jenkinsci/parameterized-scheduler-plugin/master/site/images/configurationexample.png)
 
 ## Configuration Example
 
