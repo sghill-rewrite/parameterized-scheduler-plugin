@@ -12,9 +12,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import antlr.ANTLRException;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,10 +26,21 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ParameterizedCronTabListTest {
+	private static final Locale defaultLocale = Locale.getDefault();
 	@Mock
 	private ParameterizedCronTab mockParameterizedCronTab;
 	@Mock
 	private ParameterizedCronTab mockParameterizedCronTabToo;
+
+	@BeforeClass
+	public static void initLocale() {
+		Locale.setDefault(Locale.ENGLISH);
+	}
+
+	@AfterClass
+	public static void resetLocale() {
+		Locale.setDefault(defaultLocale);
+	}
 
 	@Test
 	public void create() throws Exception {
