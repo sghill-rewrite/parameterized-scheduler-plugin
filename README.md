@@ -29,7 +29,7 @@ The idea was born from the need to use a different environment. To use a differe
 # lets run against the integration environment at 15 past the hour
 15 * * * * %env=int
 # run QA too
-30 * * * * %%env=qa
+30 * * * * %env=qa
 ```
 
 Yes, of course you can set multiple parameters. Lets say you have three parameters:
