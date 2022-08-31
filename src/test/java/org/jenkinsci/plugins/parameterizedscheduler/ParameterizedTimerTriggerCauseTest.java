@@ -1,10 +1,14 @@
 package org.jenkinsci.plugins.parameterizedscheduler;
 
+import hudson.triggers.TimerTrigger;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 
 public class ParameterizedTimerTriggerCauseTest {
@@ -19,4 +23,9 @@ public class ParameterizedTimerTriggerCauseTest {
 				testObject.getShortDescription());
 	}
 
+	@Test
+	public void isTimerTrigger() {
+		assertThat(new ParameterizedTimerTriggerCause(Collections.singletonMap("a", "b")),
+				instanceOf(TimerTrigger.TimerTriggerCause.class));
+	}
 }
