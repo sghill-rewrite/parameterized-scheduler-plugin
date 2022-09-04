@@ -144,7 +144,7 @@ public class ParameterizedSchedulerTest {
     private static class NullParameterDefinition extends ParameterDefinition {
 
         public NullParameterDefinition(@NonNull String name) {
-            super(name, null);
+            super(name);
         }
 
         @CheckForNull
