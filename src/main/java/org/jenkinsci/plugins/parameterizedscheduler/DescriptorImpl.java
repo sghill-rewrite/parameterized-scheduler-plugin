@@ -8,6 +8,7 @@ import hudson.model.Item;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
 import hudson.model.ParametersDefinitionProperty;
+import hudson.security.Permission;
 import hudson.triggers.TriggerDescriptor;
 import hudson.util.FormValidation;
 import org.jenkinsci.Symbol;
@@ -16,6 +17,7 @@ import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.QueryParameter;
 
 import antlr.ANTLRException;
+import org.kohsuke.stapler.verb.POST;
 
 @Extension @Symbol("parameterizedCron")
 public class DescriptorImpl extends TriggerDescriptor {
@@ -49,8 +51,10 @@ public class DescriptorImpl extends TriggerDescriptor {
 	/**
 	 * Performs syntax check.
 	 */
+	@POST
 	public FormValidation doCheckParameterizedSpecification(@QueryParameter String value,
 			@AncestorInPath Job<?, ?> job) {
+		job.checkPermission(Permission.CONFIGURE);
 		try {
 
 			String msg = ParameterizedCronTabList.create(fixNull(value)).checkSanity();
