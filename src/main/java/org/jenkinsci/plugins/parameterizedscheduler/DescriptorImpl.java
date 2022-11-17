@@ -8,7 +8,6 @@ import hudson.model.Item;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
 import hudson.model.ParametersDefinitionProperty;
-import hudson.security.Permission;
 import hudson.triggers.TriggerDescriptor;
 import hudson.util.FormValidation;
 import org.jenkinsci.Symbol;
@@ -54,7 +53,7 @@ public class DescriptorImpl extends TriggerDescriptor {
 	@POST
 	public FormValidation doCheckParameterizedSpecification(@QueryParameter String value,
 			@AncestorInPath Job<?, ?> job) {
-		job.checkPermission(Permission.CONFIGURE);
+		job.checkPermission(Item.CONFIGURE);
 		try {
 
 			String msg = ParameterizedCronTabList.create(fixNull(value)).checkSanity();
