@@ -10,12 +10,11 @@
 	</parent>
 
 	<artifactId>parameterized-scheduler</artifactId>
-	<version>${revision}${changelist}</version>
+	<version>${changelist}</version>
 	<packaging>hpi</packaging>
 
 	<properties>
-		<revision>1.3</revision>
-		<changelist>-SNAPSHOT</changelist>
+		<changelist>999999-SNAPSHOT</changelist>
 		<gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
 		<jenkins.version>2.375.1</jenkins.version>
 	</properties>
