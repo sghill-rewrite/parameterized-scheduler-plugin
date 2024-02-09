@@ -2,7 +2,7 @@ package org.jenkinsci.plugins.parameterizedscheduler;
 
 import hudson.Extension;
 import hudson.model.AbstractProject;
-import hudson.model.PeriodicWork;
+import hudson.model.AperiodicWork;
 import hudson.triggers.Trigger;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
@@ -10,17 +10,24 @@ import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Extension
-public class Cron extends PeriodicWork {
+public class Cron extends AperiodicWork {
 	private static final Logger LOGGER = Logger.getLogger(Cron.class.getName());
+
+	// time constants
+	protected static final long MIN = 1000 * 60;
+
+	@Override
+	public AperiodicWork getNewInstance() {
+		return new Cron();
+	}
 
 	@Override
 	public long getRecurrencePeriod() {
-		return TimeUnit.MINUTES.toMillis(1);
+		return getInitialDelay();
 	}
 
 	@Override
@@ -29,7 +36,7 @@ public class Cron extends PeriodicWork {
 	}
 
 	@Override
-	protected void doRun() {
+	protected void doAperiodicRun() {
 		Jenkins instance = Jenkins.get();
 
 		for (AbstractProject<?, ?> project : instance.allItems(AbstractProject.class)) {
