@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import antlr.ANTLRException;
 import hudson.scheduler.CronTab;
 import hudson.scheduler.CronTabList;
 import hudson.scheduler.Hash;
@@ -34,7 +33,7 @@ public class ParameterizedCronTab {
 	 *      Used to spread out token like "@daily". Null to preserve the legacy behaviour
 	 *      of not spreading it out at all.
 	 */
-	public static ParameterizedCronTab create(String line, int lineNumber, Hash hash, String timezone) throws ANTLRException {
+	public static ParameterizedCronTab create(String line, int lineNumber, Hash hash, String timezone) {
 		Map<String, String> parameters = new HashMap<>();
 		int firstPercentIdx = line.indexOf("%");
 		if(firstPercentIdx != -1) {
