@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import antlr.ANTLRException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -145,8 +144,8 @@ public class ParameterizedCronTabListTest {
 		assertEquals(expected, actualCronTabs.get(0).getParameterValues());
 	}
 
-	@Test(expected = ANTLRException.class)
-	public void create_with_invalidTimezone() throws ANTLRException {
+	@Test(expected = IllegalArgumentException.class)
+	public void create_with_invalidTimezone() {
 		ParameterizedCronTabList.create("TZ=Dune/Arrakis \n * * * * *%foo=bar");
 	}
 

@@ -1,6 +1,5 @@
 package org.jenkinsci.plugins.parameterizedscheduler;
 
-import antlr.ANTLRException;
 import hudson.model.AbstractProject;
 import hudson.model.Cause;
 import hudson.model.CauseAction;
@@ -34,7 +33,7 @@ public class ParameterizedTimerTrigger extends Trigger<Job> {
 	private final String parameterizedSpecification;
 
 	@DataBoundConstructor
-	public ParameterizedTimerTrigger(String parameterizedSpecification) throws ANTLRException {
+	public ParameterizedTimerTrigger(String parameterizedSpecification) {
 		this.parameterizedSpecification = parameterizedSpecification;
 		this.cronTabList = ParameterizedCronTabList.create(parameterizedSpecification);
 	}
@@ -102,7 +101,7 @@ public class ParameterizedTimerTrigger extends Trigger<Job> {
 
 		try {// reparse the tabs with the job as the hash
 			cronTabList = ParameterizedCronTabList.create(parameterizedSpecification, Hash.from(project.getFullName()));
-		} catch (ANTLRException e) {
+		} catch (IllegalArgumentException e) {
 			// this shouldn't fail because we've already parsed stuff in the constructor,
 			// so if it fails, use whatever 'tabs' that we already have.
 			LOGGER.log(Level.FINE, "Failed to parse crontab spec: " + spec, e);

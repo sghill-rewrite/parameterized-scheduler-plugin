@@ -15,7 +15,6 @@ import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.QueryParameter;
 
-import antlr.ANTLRException;
 import org.kohsuke.stapler.verb.POST;
 
 @Extension @Symbol("parameterizedCron")
@@ -68,11 +67,9 @@ public class DescriptorImpl extends TriggerDescriptor {
 			}
 
 			return FormValidation.ok();
-		} catch (ANTLRException e) {
+		} catch (IllegalArgumentException e) {
 			if (value.trim().indexOf('\n') == -1 && value.contains("**"))
 				return FormValidation.error(Messages.ParameterizedTimerTrigger_MissingWhitespace());
-			return FormValidation.error(e.getMessage());
-		} catch (IllegalArgumentException e) {
 			return FormValidation.error(e.getMessage());
 		}
 	}

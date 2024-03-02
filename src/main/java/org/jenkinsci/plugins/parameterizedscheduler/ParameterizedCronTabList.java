@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import antlr.ANTLRException;
-
 /**
  * mostly a copy of {@link CronTabList}
  * 
@@ -24,11 +22,11 @@ public class ParameterizedCronTabList {
 		this.cronTabs = cronTabs;
 	}
 
-	public static ParameterizedCronTabList create(String cronTabSpecification) throws ANTLRException {
+	public static ParameterizedCronTabList create(String cronTabSpecification) {
 		return create(cronTabSpecification, null);
 	}
 
-	public static ParameterizedCronTabList create(String cronTabSpecification, Hash hash) throws ANTLRException {
+	public static ParameterizedCronTabList create(String cronTabSpecification, Hash hash) {
 		List<ParameterizedCronTab> result = new ArrayList<>();
 		int lineNumber = 0;
 		String timezone = null;
@@ -39,13 +37,13 @@ public class ParameterizedCronTabList {
 				if(lineNumber == 1 && line.startsWith("TZ=")) {
 					timezone = CronTabList.getValidTimezone(line.replace("TZ=", ""));
 					if (timezone == null) {
-						throw new ANTLRException("Invalid or unsupported timezone '" + line + "'");
+						throw new IllegalArgumentException("Invalid or unsupported timezone '" + line + "'");
 					}
 				} else {
 					try {
 						result.add(ParameterizedCronTab.create(line, lineNumber, hash, timezone));
-					} catch (ANTLRException e) {
-						throw new ANTLRException(String.format("Invalid input: \"%s\": %s", line, e), e);
+					} catch (IllegalArgumentException e) {
+						throw new IllegalArgumentException(String.format("Invalid input: \"%s\": %s", line, e), e);
 					}
 				}
 			}
